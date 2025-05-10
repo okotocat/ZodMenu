@@ -11,7 +11,7 @@ Includes my stand-alone mods: **InfiBrush**, **IronGut**, **SpawnerMod**, and **
 ## ✅ Features
 
 - **InfiBrush (F8)**  
-  Makes **RustBrush** and **PolishBrush** unlimited.
+  Makes **RustBrush**, **PolishBrush** and **PaintCans (PaintBomb_C)** unlimited.
   
 - **IronGut (F9)**  
   Toggles **Hunger and Thirst** systems on/off.
