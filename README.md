@@ -18,8 +18,9 @@ Includes my stand-alone mods: **InfiBrush**, **IronGut**, **SpawnerMod**, **TheF
 
 - **SpawnerMod (DELETE / END)**  
   Opens an **Item Spawner Menu** to spawn available items.
-  - **DELETE**: Open or close the Spawner.
-  - **END, followed by left mouse button**: Restores controls and hides cursor if Spawner closes automatically.
+  
+- **CarSpawner (Numpad Subtract / Numpad Add)**  
+  Select a car and spawn it, fully built with the correct parts, ready to drive.
 
 - **TheFlash (F1)**  
   Applies a **massive forward speed boost** to your character.
