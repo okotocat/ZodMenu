@@ -6,7 +6,7 @@
 ## Description
 
 **ZodMenu** is a multi-tool utility mod for *Drive Beyond Horizons* combining multiple popular features into a single package.  
-Includes my stand-alone mods: **InfiBrush**, **IronGut**, **SpawnerMod**, and **TheFlash** speed boost functionality. With more to be added in future releases!
+Includes my stand-alone mods: **InfiBrush**, **IronGut**, **SpawnerMod**, **TheFlash** and **CarSpawner**. With more to be added in future releases!
 
 ## ✅ Features
 
