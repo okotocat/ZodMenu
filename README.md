@@ -11,7 +11,7 @@ Includes my stand-alone mods: **InfiBrush**, **IronGut**, **SpawnerMod**, and **
 ## ✅ Features
 
 - **InfiBrush (F8)**  
-  Makes **RustBrush**, **PolishBrush** and **PaintCans (PaintBomb_C)** unlimited.
+  Makes **RustBrush** and **PolishBrush** unlimited.
   
 - **IronGut (F9)**  
   Toggles **Hunger and Thirst** systems on/off.
@@ -39,11 +39,13 @@ ZodMenu : 1
 
 | Key   | Functionality                                |
 |------|----------------------------------------------|
-| F8   | Enable **InfiBrush** (Unlimited Brushes)     |
+| F8   | Enable **InfiBrush** (Unlimited Brushes+Paint)     |
 | F9   | Toggle **IronGut** (Hunger/Thirst On/Off)     |
 | DELETE| Open **SpawnerMod** Menu                     |
-| END + Left Click | Restore Controls After Spawner Closes |
+| END THEN Left Click | Restore Controls After Spawner Closes |
 | F1   | Activate **TheFlash** Speed Boost             |
+| NUMPAD Subtract   | Cycle Cars To Spawn             |
+| NUMPAD ADD   | Spawn Car            |
 
 ## 📝 Notes
 
@@ -51,6 +53,17 @@ ZodMenu : 1
 - Use **END followed by Left Click** to fully restore controls if the menu closes itself after spawning an item or if closed via the button on the menu UI.
 - Some items may be **missing** from the Spawner as it uses the **game's built-in debug list**. This is determined by the DBH devs. Missing assets can be spawned manually but the spawner does not include functional additions of missing items.
 - **TheFlash** applies a single forward velocity boost on key press, not continuous speed.
+
+
+## Change-Log:
+v.1.0.1 - Added PaintCan (PaintBomb_C) quantity override support to InfiBrush function. PaintCan's currently active in the world will now also reflect a pseudo-infinite value on F8 key press.
+
+v1.1 - Added "CarSpawner" - Use Numpad Subtract (-) to cycle available cars. Use Numpad Add (+) to spawn the currently selected car. 
+- Hidden "Kart" vehicle included.
+- Vehicle will spawn directly to the right of you.
+- Currently selected car will be displayed in the console log.
+- Console log will display spawned car.
+- All spawned cars will be part complete and all original parts.
 
 ## Known Issues
 
