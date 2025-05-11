@@ -1,11 +1,11 @@
-print("[ZodMenu] Loaded. Includes InfiBrush, IronGut, SpawnerMod, and TheFlash.")
+print("[ZodMenu] Loaded. Includes InfiBrush, IronGut, SpawnerMod, CarSpawner and TheFlash.")
 
 
 -- InfiBrush Functionality (F8)
 RegisterKeyBind(Key.F8, function()
-    print("[InfiBrush] F8 pressed — scanning for RustBrush_C and PolishBrush_C...")
+    print("[InfiBrush] F8 pressed — scanning for RustBrush_C, PaintBomb_C and PolishBrush_C...")
 
-    local targetClasses = { "RustBrush_C", "PolishBrush_C" }
+    local targetClasses = { "RustBrush_C", "PolishBrush_C", "PaintBomb_C" }
     local propsToTry = { "Quantity", "Uses", "Count", "Charges", "Durability" }
 
     for _, className in ipairs(targetClasses) do
@@ -162,5 +162,61 @@ RegisterKeyBind(112, function()
     return false
 end)
 
+--Car Spawner
+print("CarSpawner Loaded.")
+print("Press NUMPAD SUBTRACT (-) to cycle cars, NUMPAD ADD (+) to spawn the selected car.")
 
-print("[ZodMenu] Ready. F8=InfiBrush, F9=IronGut, DEL=SpawnerMod, END=SpawnerCloseFix, F1=TheFlash.")
+-- Current car names. (Fucking remove "Pontiac" before they DMCA -_-)
+local carIndex = 1
+local carNames = {
+    "Lada",
+    "Musgoat",
+    "Poyopa",
+    "Trailer",
+    "Caddie",
+    "TriClops",
+    "Pontiac",
+    "IFA",
+    "C18",
+    "UAZ",
+    "GTR",
+    "Golf"
+}
+
+-- How to cycle in this fucked up cooked env? Index? Index.....
+local function CycleCar()
+    carIndex = carIndex + 1
+    if carIndex > #carNames then
+        carIndex = 1
+    end
+    print("Selected car: " .. carNames[carIndex])
+end
+
+-- Safely spawn the bitch
+local function SpawnSelectedCar()
+    local Rust = false
+    local Polish = false
+    local Metallic = false
+    local Color = {A=1,R=1,G=1,B=1}
+    local PlayerControllerClass = FindFirstOf("BP_DebugMenuComponent_C")
+    if PlayerControllerClass then
+        ExecuteInGameThread(function()
+            PlayerControllerClass:SpawnCar(carIndex,Rust,Polish,Metallic,Color)
+        end)
+    end
+end
+
+-- CarSpawner Keys
+RegisterKeyBind(Key.SUBTRACT, function()
+    CycleCar()
+end)
+
+RegisterKeyBind(Key.ADD, function()
+    SpawnSelectedCar()
+end)
+
+-- Show the default/initial car selected
+print("Initial car selected: " .. carNames[carIndex])
+
+
+print("[ZodMenu] Ready. F8=InfiBrush+Paint, F9=IronGut, DEL=SpawnerMod, Numpad Subtract/Add=CarSelector/Spawner END=SpawnerCloseFix, F1=TheFlash.")
