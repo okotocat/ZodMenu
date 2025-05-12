@@ -1,11 +1,11 @@
-print("[ZodMenu] Loaded. Includes InfiBrush, IronGut, SpawnerMod, and TheFlash.")
+print("[ZodMenu] Loaded. Includes InfiBrush, IronGut, SpawnerMod, CarSpawner and TheFlash.")
 
 
 -- InfiBrush Functionality (F8)
 RegisterKeyBind(Key.F8, function()
-    print("[InfiBrush] F8 pressed — scanning for RustBrush_C and PolishBrush_C...")
+    print("[InfiBrush] F8 pressed — scanning for RustBrush_C, PaintBomb_C and PolishBrush_C...")
 
-    local targetClasses = { "RustBrush_C", "PolishBrush_C" }
+    local targetClasses = { "RustBrush_C", "PolishBrush_C", "PaintBomb_C" }
     local propsToTry = { "Quantity", "Uses", "Count", "Charges", "Durability" }
 
     for _, className in ipairs(targetClasses) do
@@ -162,5 +162,124 @@ RegisterKeyBind(112, function()
     return false
 end)
 
+--Car Spawner
+print("CarSpawner Loaded.")
+print("Press NUMPAD SUBTRACT (-) to cycle cars, NUMPAD ADD (+) to spawn the selected car.")
 
-print("[ZodMenu] Ready. F8=InfiBrush, F9=IronGut, DEL=SpawnerMod, END=SpawnerCloseFix, F1=TheFlash.")
+-- Current car names. (Fucking remove "Pontiac" before they DMCA -_-)
+local carIndex = 1
+local carNames = {
+    "Pontiac",
+    "C18",
+    "Lada",
+    "Golf",
+    "GTR",
+    "IFA",
+    "Musgoat",
+    "Poyopa",
+    "TriClops",
+    "UAZ",
+    "Trailer"
+}
+
+-- Let's make sure we have the right path...just in case.
+local function GetCarPath()
+    if carNames[carIndex] == "Pontiac" then
+        return "/Game/BP/CarsV2/PontiacCar.PontiacCar_C"
+    elseif carNames[carIndex] == "C18" then
+        return "/Game/BP/CarsV2/C18New.C18New_C"
+    elseif carNames[carIndex] == "Lada" then
+        return "/Game/BP/CarsV2/LadaCarNew.LadaCarNew_C"
+    elseif carNames[carIndex] == "Golf" then
+        return "/Game/BP/CarsV2/GolfCar.GolfCar_C"
+    elseif carNames[carIndex] == "GTR" then
+        return "/Game/BP/CarsV2/HorizonGTCar.HorizonGTCar_C"
+    elseif carNames[carIndex] == "IFA" then
+        return "/Game/BP/CarsV2/IFACar.IFACar_C"
+    elseif carNames[carIndex] == "Musgoat" then
+        return "/Game/BP/CarsV2/MusgoatCar.MusgoatCar_C"
+    elseif carNames[carIndex] == "Poyopa" then
+        return "/Game/BP/CarsV2/PoyopaCar.PoyopaCar_C"
+    elseif carNames[carIndex] == "TriClops" then
+        return "/Game/BP/CarsV2/TriClopsCar.TriClopsCar_C"
+    elseif carNames[carIndex] == "UAZ" then
+        return "/Game/BP/CarsV2/UAZCar.UAZCar_C"
+    elseif carNames[carIndex] == "Trailer" then
+        return "/Game/BP/CarsV2/Vehicle_Trailer.Vehicle_Trailer_C"
+    end
+    return nil
+end
+
+-- How to cycle in this fucked up cooked env? Index? Index.....
+local function CycleCar()
+    carIndex = carIndex + 1
+    if carIndex > #carNames then
+        carIndex = 1
+    end
+    print("Selected car: " .. carNames[carIndex])
+end
+
+-- Safely spawn the bitch
+local function SpawnSelectedCar()
+    local carPath = GetCarPath()
+    if not carPath then
+        print("No path found for car: " .. carNames[carIndex])
+        return
+    end
+
+    local carClass = StaticFindObject(carPath)
+    if not carClass then
+        print("Failed to find car class at path: " .. carPath)
+        return
+    end
+
+    local pc = FindFirstOf("PlayerController")
+    if not pc or not pc.Pawn then
+        print("No valid PlayerController or Pawn.")
+        return
+    end
+
+    local pawn = pc.Pawn
+    local loc = pawn:K2_GetActorLocation()
+    local rot = pawn:K2_GetActorRotation()
+    local world = pawn:GetWorld()
+    if not world then
+        print("Failed to get World.")
+        return
+    end
+
+    local spawnPos = { X = loc.X, Y = loc.Y + 200, Z = loc.Z }
+
+    print("Spawning: " .. carNames[carIndex] .. " from path: " .. carPath)
+
+    local car = world:SpawnActor(carClass, spawnPos, rot)
+
+    -- Sanity check.....not mine, the games.
+    local isValid = car and pcall(function() return car:GetFullName() end)
+    if not isValid then
+        print("Failed to spawn a valid car instance (nullptr or invalid object).")
+        return
+    end
+
+    car:SetActorEnableCollision(false)
+
+    local root = car.RootComponent
+    if root and root.SetSimulatePhysics then
+        root:SetSimulatePhysics(true)
+    end
+end
+
+-- CarSpawner Keys
+RegisterKeyBind(Key.SUBTRACT, function()
+    CycleCar()
+end)
+
+RegisterKeyBind(Key.ADD, function()
+    SpawnSelectedCar()
+end)
+
+-- Show the default/initial car selected
+print("Initial car selected: " .. carNames[carIndex])
+
+
+print("[ZodMenu] Ready. F8=InfiBrush+Paint, F9=IronGut, DEL=SpawnerMod, Numpad Subtract/Add=CarSelector/Spawner END=SpawnerCloseFix, F1=TheFlash.")
